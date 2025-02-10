@@ -18,7 +18,8 @@ STSServoDriver::STSServoDriver() : dirPin_(0)
 
 bool STSServoDriver::init(byte const& dirPin, HardwareSerial *serialPort,long const& baudRate)
 {
-#if defined(SERIAL_H) || defined(HardwareSerial_h)
+    // NOTE: ESP32-S3 use Serial as HWCDC in USB_CDC_ON_BOOT mode
+#if defined(SERIAL_H) || defined(HardwareSerial_h) && !defined(ARDUINO_USB_CDC_ON_BOOT)
     if (serialPort == nullptr)
         serialPort = &Serial;
 #endif
